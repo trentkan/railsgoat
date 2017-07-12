@@ -26,14 +26,14 @@ class AdminController < ApplicationController
   end
 
   def get_user
-    @user = User.find_by_id(params[:admin_id].to_s)
+    @user = User.where("admin_id = #{params[:admin_id]}")
     arr = ["true", "false"]
     @admin_select = @user.admin ? arr : arr.reverse
     render :partial => "layouts/admin/get_user"
   end
 
   def update_user
-    user = User.find_by_id(params[:admin_id])
+    user = User.where("admin_id = #{params[:admin_id]}")
     if user
       user.update_attributes(params[:user].reject { |k| k == ("password" || "password_confirmation") })
       pass = params[:user][:password]
